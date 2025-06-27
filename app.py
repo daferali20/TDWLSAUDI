@@ -3,19 +3,16 @@ import requests
 import pandas as pd
 import plotly.graph_objects as go
 from datetime import datetime
+import random  # تم إضافة هذه المكتبة المفقودة
 
 st.set_page_config(page_title="مؤشر الخوف السعودي", layout="centered")
 
 st.title("📉 مؤشر الخوف في السوق السعودي (SFI)")
 
-@st.cache_data(ttl=3600)  # تخزين البيانات لمدة ساعة لتجنب طلبات متكررة
+@st.cache_data(ttl=3600)
 def fetch_market_data():
     try:
-        # جلب بيانات المؤشر العام (هذا مثال، تحتاج لاستبداله بمصدر بيانات حقيقي)
-        tasi_url = "https://api.tadawul.com.sa/v1/markets/TASI"  # مثال - يحتاج لتفعيل API حقيقي
-        sectors_url = "https://api.tadawul.com.sa/v1/sectors"  # مثال - يحتاج لتفعيل API حقيقي
-        
-        # في حالة عدم وجود API حقيقي، سنستخدم بيانات وهمية مع تنبيه للمستخدم
+        # جلب بيانات المؤشر العام (بيانات وهمية في هذا المثال)
         st.warning("⚠️ يتم استخدام بيانات تجريبية لأغراض العرض. للتطبيق الفعلي، يلزم تفعيل واجهة برمجة التطبيقات (API) من تداول.")
         
         # بيانات وهمية للمؤشر العام
@@ -170,13 +167,13 @@ if tasi_data is not None and sectors_df is not None:
         st.plotly_chart(fig2, use_container_width=True)
     
     # تحليل القطاع الأكثر خوفاً
-    # تحليل القطاع الأكثر خوفاً
     max_fear_sector = sectors_df.loc[sectors_df['Fear Score'].idxmax()]
     st.markdown(f"### 🔍 تحليل القطاع الأكثر خوفاً: {max_fear_sector['name']}")
     st.write(f"- مؤشر الخوف: {max_fear_sector['Fear Score']} ({max_fear_sector['Sentiment']})")
     st.write(f"- نسبة التغير: {max_fear_sector['change_percent']}%")
     st.write(f"- عدد الأسهم الهابطة: {max_fear_sector['declines']} من أصل {max_fear_sector['total_stocks']}")
     st.write(f"- مستوى التقلب: {max_fear_sector['volatility']}")
+
 else:
     st.error("لا يمكن عرض البيانات حالياً. يرجى المحاولة لاحقاً.")
 
