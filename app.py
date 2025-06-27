@@ -171,12 +171,12 @@ if tasi_data is not None and sectors_df is not None:
     
     # تحليل القطاع الأكثر خوفاً
     # تحليل القطاع الأكثر خوفاً
-max_fear_sector = sectors_df.loc[sectors_df['Fear Score'].idxmax()]
-st.markdown(f"### 🔍 تحليل القطاع الأكثر خوفاً: {max_fear_sector['name']}")
-st.write(f"- مؤشر الخوف: {max_fear_sector['Fear Score']} ({max_fear_sector['Sentiment']})")
-st.write(f"- نسبة التغير: {max_fear_sector['change_percent']}%")
-st.write(f"- عدد الأسهم الهابطة: {max_fear_sector['declines']} من أصل {max_fear_sector['total_stocks']}")
-st.write(f"- مستوى التقلب: {max_fear_sector['volatility']}")
+    max_fear_sector = sectors_df.loc[sectors_df['Fear Score'].idxmax()]
+    st.markdown(f"### 🔍 تحليل القطاع الأكثر خوفاً: {max_fear_sector['name']}")
+    st.write(f"- مؤشر الخوف: {max_fear_sector['Fear Score']} ({max_fear_sector['Sentiment']})")
+    st.write(f"- نسبة التغير: {max_fear_sector['change_percent']}%")
+    st.write(f"- عدد الأسهم الهابطة: {max_fear_sector['declines']} من أصل {max_fear_sector['total_stocks']}")
+    st.write(f"- مستوى التقلب: {max_fear_sector['volatility']}")
 else:
     st.error("لا يمكن عرض البيانات حالياً. يرجى المحاولة لاحقاً.")
 
