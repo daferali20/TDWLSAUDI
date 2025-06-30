@@ -79,14 +79,14 @@ if uploaded_file:
         col1, col2 = st.columns(2)
 
         with col1:
-            gainers = df[df["pnl_percent"] >= 10]
+            gainers = df[df["العائد"] >= 10]
             st.success(f"🟢 أسهم رابحة (+10%): {len(gainers)}")
-            st.dataframe(gainers[["symbol", "pnl_percent"]].round(2))
+            st.dataframe(gainers[["symbol", "العائد"]].round(2))
 
         with col2:
-            losers = df[df["pnl_percent"] <= -10]
+            losers = df[df["العائد"] <= -10]
             st.error(f"🔴 أسهم خاسرة (-10%): {len(losers)}")
-            st.dataframe(losers[["symbol", "pnl_percent"]].round(2))
+            st.dataframe(losers[["symbol", "العائد"]].round(2))
 
         # رسم بياني للقطاعات
         #st.subheader("📊 توزيع المحفظة حسب القطاعات")
