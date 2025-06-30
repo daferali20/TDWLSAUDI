@@ -12,3 +12,6 @@ python-telegram-bot
 matplotlib
 load_dotenv
 FPDF2
+arabic-reshaper
+python-bidi
+fpdf
