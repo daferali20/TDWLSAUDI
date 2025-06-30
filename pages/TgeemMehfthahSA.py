@@ -79,46 +79,53 @@ if uploaded_file:
 
         # تقرير PDF
         st.subheader("📄 تحميل تقرير PDF")
+        from fpdf import FPDF
 
-        def generate_pdf(data):
-            pdf = FPDF()
-            pdf.add_page()
-            pdf.set_font("Arial", "B", 16)
-            pdf.cell(200, 10, txt="تقرير المحفظة الاستثمارية - السوق السعودي", ln=True, align="C")
-            pdf.set_font("Arial", "", 12)
-            pdf.ln(10)
-
-            # ملخص
-            pdf.cell(200, 10, txt=f"إجمالي الشراء: {total_initial:,.2f} ريال", ln=True)
-            pdf.cell(200, 10, txt=f"القيمة الحالية: {total_current:,.2f} ريال", ln=True)
-            pdf.cell(200, 10, txt=f"الربح / الخسارة: {total_pnl:,.2f} ريال ({total_pnl_percent:.2f}%)", ln=True)
-            pdf.ln(10)
-
-            # جدول الأسهم
-            pdf.set_font("Arial", "B", 12)
-            pdf.cell(40, 10, "السهم", 1)
-            pdf.cell(30, 10, "القطاع", 1)
-            pdf.cell(30, 10, "الكمية", 1)
-            pdf.cell(30, 10, "سعر الشراء", 1)
-            pdf.cell(30, 10, "السعر الحالي", 1)
-            pdf.cell(30, 10, "الربح %", 1)
+    def generate_pdf(data):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.add_font('Cairo', '', 'Cairo-Regular.ttf', uni=True)
+        pdf.set_font("Cairo", "", 14)
+    
+        pdf.cell(200, 10, txt="تقرير المحفظة الاستثمارية - السوق السعودي", ln=True, align="C")
+        pdf.ln(10)
+    
+        # ملخص
+        pdf.set_font("Cairo", "", 12)
+        pdf.cell(200, 10, txt=f"إجمالي الشراء: {total_initial:,.2f} ريال", ln=True)
+        pdf.cell(200, 10, txt=f"القيمة الحالية: {total_current:,.2f} ريال", ln=True)
+        pdf.cell(200, 10, txt=f"الربح / الخسارة: {total_pnl:,.2f} ريال ({total_pnl_percent:.2f}%)", ln=True)
+        pdf.ln(10)
+    
+        # رؤوس الجدول
+        pdf.set_font("Cairo", "B", 11)
+        headers = ["السهم", "القطاع", "الكمية", "سعر الشراء", "السعر الحالي", "الربح %"]
+        col_widths = [35, 35, 25, 30, 30, 25]
+        for i, header in enumerate(headers):
+            pdf.cell(col_widths[i], 10, header, 1)
+        pdf.ln()
+    
+        # الصفوف
+        pdf.set_font("Cairo", "", 10)
+        for _, row in data.iterrows():
+            values = [
+                row["symbol"],
+                row["sector"][:15],
+                str(row["shares"]),
+                f"{row['buy_price']:.2f}",
+                f"{row['current_price']:.2f}",
+                f"{row['pnl_percent']:.2f}%"
+            ]
+            for i, val in enumerate(values):
+                pdf.cell(col_widths[i], 10, val, 1)
             pdf.ln()
-
-            pdf.set_font("Arial", "", 10)
-            for _, row in data.iterrows():
-                pdf.cell(40, 10, row["symbol"], 1)
-                pdf.cell(30, 10, row["sector"][:10], 1)
-                pdf.cell(30, 10, str(row["shares"]), 1)
-                pdf.cell(30, 10, f"{row['buy_price']:.2f}", 1)
-                pdf.cell(30, 10, f"{row['current_price']:.2f}", 1)
-                pdf.cell(30, 10, f"{row['pnl_percent']:.2f}%", 1)
-                pdf.ln()
-
-            # حفظ الملف في الذاكرة
-            buffer = BytesIO()
-            pdf.output(buffer)
-            return buffer
-
+    
+        # حفظ الملف في الذاكرة
+        buffer = BytesIO()
+        pdf.output(buffer)
+        buffer.seek(0)
+        return buffer
+        
         pdf_buffer = generate_pdf(df)
         st.download_button("📥 تحميل التقرير كـ PDF", data=pdf_buffer.getvalue(), file_name="portfolio_report.pdf", mime="application/pdf")
 
