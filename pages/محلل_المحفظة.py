@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from fpdf import FPDF
 from io import BytesIO
-import arabic_reshaper
+#import arabic_reshaper
 from bidi.algorithm import get_display
 
 # إعداد صفحة Streamlit
