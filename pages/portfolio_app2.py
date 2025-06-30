@@ -70,12 +70,23 @@ if uploaded_file:
             st.dataframe(losers[["symbol", "pnl_percent"]].round(2))
 
         # رسم بياني للقطاعات
-        st.subheader("📊 توزيع المحفظة حسب القطاعات")
         sector_summary = df.groupby("sector")["current_value"].sum()
-        fig, ax = plt.subplots()
-        ax.pie(sector_summary, labels=sector_summary.index, autopct="%1.1f%%", startangle=90)
-        ax.axis("equal")
-        st.pyplot(fig)
+
+        st.write("بيانات القطاعات:", sector_summary)  # عرض البيانات
+        
+        # تنظيف البيانات
+        sector_summary = sector_summary.dropna()
+        sector_summary = sector_summary[sector_summary > 0]
+        
+        if sector_summary.empty:
+            st.warning("⚠️ لا توجد بيانات صحيحة للرسم البياني.")
+        else:
+            import matplotlib.pyplot as plt
+            plt.close('all')
+            fig, ax = plt.subplots()
+            ax.pie(sector_summary, labels=sector_summary.index, autopct="%1.1f%%", startangle=90)
+            ax.axis("equal")
+            st.pyplot(fig)
 
         # تقرير PDF
         st.subheader("📄 تحميل تقرير PDF")
