@@ -10,9 +10,9 @@ from bidi.algorithm import get_display
 st.set_page_config(page_title="📊 تحليل المحفظة الاستثمارية", layout="wide")
 
 # دالة لمعالجة النصوص العربية
-def arabic_text(text):
-    reshaped_text = arabic_reshaper.reshape(text)
-    return get_display(reshaped_text)
+#def arabic_text(text):
+    #reshaped_text = arabic_reshaper.reshape(text)
+    #return get_display(reshaped_text)
 
 # عنوان التطبيق
 st.markdown(f"<h1 style='text-align: right;'>{arabic_text('📈 تقييم المحفظة - السوق السعودي')}</h1>", unsafe_allow_html=True)
