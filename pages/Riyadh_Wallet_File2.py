@@ -81,12 +81,12 @@ if uploaded_file:
         with col1:
             gainers = df[df["العائد"] >= 10]
             st.success(f"🟢 أسهم رابحة (+10%): {len(gainers)}")
-            st.dataframe(gainers[["الرمز", "العائد"]].round(2))
+            st.dataframe(gainers[["الرمز", "المحفظة"]].round(2))
 
         with col2:
             losers = df[df["العائد"] <= -10]
             st.error(f"🔴 أسهم خاسرة (-10%): {len(losers)}")
-            st.dataframe(losers[["الرمز", "العائد"]].round(2))
+            st.dataframe(losers[["الرمز", "المحفظة"]].round(2))
 
         # رسم بياني للقطاعات
         #st.subheader("📊 توزيع المحفظة حسب القطاعات")
