@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-
+from fpdf import FPDF
+from io import BytesIO
 st.set_page_config(page_title="📊 تحليل المحفظة الاستثمارية", layout="wide")
 st.title("📈 تقييم المحفظة - السوق السعودي")
 
